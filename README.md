@@ -1,5 +1,6 @@
 # STM32H563ZI
 Development notes
+
 [Blinky]
 Setup user LEDS
 Check STM32H563ZI Nucleo-144 schematic pdf file for
