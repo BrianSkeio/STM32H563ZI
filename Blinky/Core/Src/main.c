@@ -61,6 +61,56 @@ static void MX_GPIO_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
+
+static GPIO_PinState state;
+
+void BlinkyLED_MethodA(void)
+{
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_4, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_4, GPIO_PIN_SET);
+	  HAL_Delay(500);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_4, GPIO_PIN_RESET);
+	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_4, GPIO_PIN_RESET);
+	  HAL_Delay(500);
+
+	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_4, GPIO_PIN_SET);
+	  HAL_Delay(500);
+	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_4, GPIO_PIN_RESET);
+	  HAL_Delay(500);
+
+	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_4, GPIO_PIN_SET);
+	  HAL_Delay(500);
+	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_4, GPIO_PIN_RESET);
+	  HAL_Delay(500);
+}
+
+void BlinkyLED_MethodB(void)
+{
+	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+	  HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_4);
+	  HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_4);
+	  HAL_Delay(500);
+
+	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+	  HAL_Delay(500);
+
+	  HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_4);
+	  HAL_Delay(500);
+
+	  HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_4);
+	  HAL_Delay(500);
+}
+
+void BlinkLED_GPIO_IN_OUT(void)
+{
+	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+	  state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0);
+	  HAL_Delay(500);
+}
+
+
 int main(void)
 {
 
@@ -92,33 +142,12 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
-
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_4, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_4, GPIO_PIN_SET);
-	  HAL_Delay(500);
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_4, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_4, GPIO_PIN_RESET);
-	  HAL_Delay(500);
-
-	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_4, GPIO_PIN_SET);
-	  HAL_Delay(500);
-	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_4, GPIO_PIN_RESET);
-	  HAL_Delay(500);
-
-	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_4, GPIO_PIN_SET);
-	  HAL_Delay(500);
-	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_4, GPIO_PIN_RESET);
-	  HAL_Delay(500);
+	  BlinkyLED_MethodB();
 
   }
+
   /* USER CODE END 3 */
 }
 
@@ -201,6 +230,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PF9 */
+  GPIO_InitStruct.Pin = GPIO_PIN_9;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB0 */
